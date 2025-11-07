@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard OCPP ↔ CoAP</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #0d1117; color: #e6edf3; text-align: center; }
+    #log { background: #161b22; border: 1px solid #30363d; width: 90%; height: 400px; margin: 20px auto; overflow-y: auto; text-align: left; padding: 10px; }
+    h2 { color: #58a6ff; }
+    .msg { margin: 0; padding: 5px; border-bottom: 1px solid #30363d; font-family: monospace; }
+  </style>
+</head>
+<body>
+  <h2>Dashboard OCPP / CoAP</h2>
+  <p>Mensagens recebidas em tempo real</p>
+  <div id="log"></div>
+
+  <script>
+    const log = document.getElementById("log");
+    const ws = new WebSocket(`ws://${location.host}`);
+    let contador = 0;
+
+    ws.onopen = () => {
+      const p = document.createElement("p");
+      p.textContent = "Conectado ao servidor OCPP!";
+      p.style.color = "#39d353";
+      log.appendChild(p);
+    };
+
+    ws.onmessage = (e) => {
+      contador++;
+      const data = e.data;
+      const p = document.createElement("p");
+      p.className = "msg";
+      p.textContent = `#${contador} → ${data}`;
+      log.appendChild(p);
+      log.scrollTop = log.scrollHeight;
+    };
+
+    ws.onclose = () => {
+      const p = document.createElement("p");
+      p.textContent = "Conexão encerrada.";
+      p.style.color = "#f85149";
+      log.appendChild(p);
+    };
+  </script>
+</body>
+</html>
