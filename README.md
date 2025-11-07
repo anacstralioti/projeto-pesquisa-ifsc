@@ -10,9 +10,7 @@ Projeto de Pesquisa fomentado pelo Instituto Federal de Santa Catarina (IFSC).
 
 ## **Visão Geral**
 
-Este projeto apresenta a implementação e validação de uma **camada de comunicação redundante** para estações de recarga de veículos elétricos (EVSE), utilizando **microcontroladores ESP32** e o protocolo **CoAP (Constrained Application Protocol)** como alternativa complementar ao protocolo **OCPP (Open Charge Point Protocol)**.  
-A solução desenvolvida demonstra como dispositivos de baixo custo podem atuar como intermediários entre a estação de recarga e o sistema de gerenciamento, garantindo **continuidade da comunicação mesmo em caso de falhas** na rede principal.  
-O sistema foi validado experimentalmente com dois ESP32 comunicando-se via **CoAP/UDP**, um servidor **OCPP em Node.js** e um **dashboard HTML** para visualização em tempo real das mensagens trafegadas.
+Este projeto apresenta a implementação e validação de uma **camada de comunicação redundante** para estações de recarga de veículos elétricos (EVSE), utilizando **microcontroladores ESP32** e o protocolo **CoAP (Constrained Application Protocol)** como alternativa complementar ao protocolo **OCPP (Open Charge Point Protocol)**. A solução desenvolvida demonstra como dispositivos de baixo custo podem atuar como intermediários entre a estação de recarga e o sistema de gerenciamento, garantindo **continuidade da comunicação mesmo em caso de falhas** na rede principal. O sistema foi validado experimentalmente com dois ESP32 comunicando-se via **CoAP/UDP**, um servidor **OCPP em Node.js** e um **dashboard HTML** para visualização em tempo real das mensagens trafegadas.
 
 ---
 
