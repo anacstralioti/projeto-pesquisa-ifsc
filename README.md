@@ -1,6 +1,6 @@
 # Comunicação entre Estações de Recarga de Veículo Elétrico e Sistemas de Gerenciamento intermediadas por microcontroladores ESP32 e protocolos de IoT
 
-Instituto Federal de Santa Catarina
+Projeto de Pesquisa fomentado pelo Instituto Federal de Santa Catarina (IFSC).
 
 - Ana Carolina Fanhani Stralioti
 - Stephane Beatriz Vale Aguiar
