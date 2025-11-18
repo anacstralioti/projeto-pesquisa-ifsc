@@ -10,13 +10,13 @@ Projeto de pesquisa fomentado pelo Instituto Federal de Santa Catarina (IFSC).
 
 ## **Visão Geral**
 
-Este projeto apresenta a implementação e validação de uma **camada de comunicação redundante** para estações de recarga de veículos elétricos (EVSE), utilizando **microcontroladores ESP32** e o protocolo **CoAP (Constrained Application Protocol)** como alternativa complementar ao protocolo **OCPP (Open Charge Point Protocol)**. A solução desenvolvida demonstra como dispositivos de baixo custo podem atuar como intermediários entre a estação de recarga e o sistema de gerenciamento, garantindo **continuidade da comunicação mesmo em caso de falhas** na rede principal. O sistema foi validado experimentalmente com dois ESP32 comunicando-se via **CoAP/UDP**, um servidor **OCPP em Node.js** e um **dashboard HTML** para visualização em tempo real das mensagens trafegadas.
+Este projeto apresenta a implementação e validação de uma **camada de comunicação redundante** para estações de recarga de veículos elétricos (EVSE), utilizando **microcontroladores ESP32** e o protocolo **CoAP (Constrained Application Protocol)** como alternativa complementar ao protocolo **OCPP (Open Charge Point Protocol)**. A solução desenvolvida demonstra como dispositivos de baixo custo podem atuar como intermediários entre a estação de recarga e o sistema de gerenciamento, garantindo **continuidade da comunicação mesmo em caso de falhas** na rede principal. A validação experimental do sistema deverá ser realizada com dois ESP32 comunicando-se via **CoAP/UDP**, um servidor **OCPP em Node.js** e um **dashboard HTML** para visualização em tempo real das mensagens trafegadas.
 
 ---
 
 ## **Objetivos e Resultados Atingidos**
 
-O projeto teve como propósito principal **propor e validar uma arquitetura de comunicação redundante** para estações de recarga de veículos elétricos, utilizando **ESP32** e o **protocolo CoAP** como camada alternativa ao **OCPP**.  
+O projeto tem como propósito principal **propor e validar uma arquitetura de comunicação redundante** para estações de recarga de veículos elétricos, utilizando **ESP32** e o **protocolo CoAP** como camada alternativa ao **OCPP**.  
 
 A seguir estão listados o **objetivo geral**, os **objetivos específicos** e os **resultados alcançados** durante a execução prática:
 
@@ -26,10 +26,10 @@ A seguir estão listados o **objetivo geral**, os **objetivos específicos** e o
 
 **Propor e analisar uma arquitetura de comunicação redundante e de maior alcance para estações de recarga de veículos elétricos, utilizando microcontroladores ESP32 e o protocolo CoAP como alternativa à comunicação OCPP direta.**
 
-**Resultado alcançado:**  
+**Resultados alcançados:**  
 - Foi implementado e testado um protótipo funcional composto por dois microcontroladores ESP32 conectados via CoAP sobre UDP, simulando a comunicação entre uma estação de recarga (EVSE) e um sistema de gerenciamento intermediário. 
 - O servidor OCPP (em Node.js) foi integrado ao fluxo de dados e validou a entrega das mensagens, retornando respostas “Accepted”.  
-- O sistema demonstrou ..., comprovando a viabilidade da solução proposta.
+- O sistema demonstrou ...
 
 ---
 
@@ -38,8 +38,8 @@ A seguir estão listados o **objetivo geral**, os **objetivos específicos** e o
 | Objetivo Específico | Resultado Obtido | Evidência |
 |----------------------|------------------|------------|
 | **1. Desenvolver um protótipo de comunicação ponto a ponto entre dois ESP32s utilizando o protocolo CoAP.** | Protótipo implementado e funcional. O cliente (EVSE) envia mensagens JSON simulando dados de recarga; o gateway ESP32 recebe e confirma via ACK. | Logs de rede e monitor serial. |
-| **2. Analisar o potencial do uso de ESP32s e CoAP para estender o alcance da comunicação em redes de recarga.** | Comunicação estável em rede Wi-Fi, comprovando o baixo consumo de largura de banda e eficiência do CoAP. | Testes experimentais com UDP. |
-| **3. Avaliar requisitos de recursos (memória, energia, largura de banda) da comunicação CoAP nos ESP32s.** | Baixo uso de memória e consumo reduzido. Pacotes CoAP menores que 1 kB. | Monitor Serial e análise Wireshark. |
+| **2. Analisar o potencial do uso de ESP32s e CoAP para estender o alcance da comunicação em redes de recarga.** | Comunicação estável em rede Wi-Fi (a ser testado com cabo ethernet), comprovando o baixo consumo de largura de banda e eficiência do CoAP. | Testes experimentais com UDP. |
+| **3. Avaliar requisitos de recursos (memória, energia, largura de banda) da comunicação CoAP nos ESP32s.** | Baixo uso de memória e consumo reduzido. Pacotes CoAP menores que 1 kB. | Monitor Serial. |
 | **4. Encapsular mensagens OCPP no protocolo CoAP e validar a entrega no servidor.** | O gateway reencaminhou corretamente mensagens encapsuladas para o servidor OCPP via WebSocket, que retornou “Accepted”. | Logs no dashboard HTML. |
 | **5. Desenvolver um dashboard HTML para visualização em tempo real das mensagens trafegadas.** | Dashboard criado e funcional, exibindo mensagens CoAP ↔ OCPP em tempo real. | Acesso local via `http://localhost:8080`. |
 
@@ -165,15 +165,6 @@ Os resultados obtidos são apresentados nas tabelas a seguir:
 
 ## **Conclusão**
 
-O projeto comprovou a **viabilidade técnica** e **eficiência prática** do uso de ESP32 e CoAP como camada de comunicação redundante ao OCPP.  
-
-A arquitetura desenvolvida oferece:
-- Comunicação leve e de baixo consumo.  
-- Resiliência frente a falhas de rede.  
-- Custo reduzido e alta replicabilidade.  
-- Visualização em tempo real do tráfego de dados.  
-
-A abordagem é aplicável a sistemas reais de infraestrutura de recarga, especialmente em cenários onde a **conectividade à internet é limitada ou instável**, tornando-se uma contribuição relevante para a área de **mobilidade elétrica e Internet das Coisas (IoT)**.
 
 ---
 
