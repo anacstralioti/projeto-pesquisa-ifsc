@@ -5,9 +5,9 @@
 #include <SPIFFS.h>
 #include <ESPmDNS.h>
 
-const char* ssid = "SERGIO_2G";
-const char* password = "an27li08se";
-const char* ocppServer = "192.168.1.17";
+const char* ssid = "";
+const char* password = "";
+const char* ocppServer = "";
 const uint16_t ocppPort = 8080;
 const int coapPort = 5685;
 
