@@ -3,9 +3,9 @@
 #include <ArduinoJson.h>
 #include <Ticker.h>
 
-const char* ssid = "SERGIO_2G";
-const char* password = "an27li08se";
-IPAddress gatewayIP(192, 168, 1, 18); // IP do Gateway
+const char* ssid = "";
+const char* password = "";
+IPAddress gatewayIP(192, 168, ..., ...); // IP do Gateway
 
 WiFiUDP udp;
 Coap coap(udp);
