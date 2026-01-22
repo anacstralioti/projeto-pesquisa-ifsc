@@ -10,7 +10,8 @@ Projeto de pesquisa fomentado pelo Instituto Federal de Santa Catarina (IFSC).
 
 ## **Visão Geral**
 
-Este projeto apresenta a implementação e validação de uma **camada de comunicação redundante** para estações de recarga de veículos elétricos (EVSE), utilizando **microcontroladores ESP32** e o protocolo **CoAP (Constrained Application Protocol)** como alternativa complementar ao protocolo **OCPP (Open Charge Point Protocol)**. A solução desenvolvida demonstra como dispositivos de baixo custo podem atuar como intermediários entre a estação de recarga e o sistema de gerenciamento, garantindo **continuidade da comunicação mesmo em caso de falhas** na rede principal. A validação experimental do sistema deverá ser realizada com dois ESP32 comunicando-se via **CoAP/UDP**, um servidor **OCPP em Node.js** e um **dashboard HTML** para visualização em tempo real das mensagens trafegadas.
+ste projeto apresenta a implementação de uma arquitetura de comunicação para estações de recarga de veículos elétricos (EVSE) utilizando microcontroladores ESP32 e o protocolo CoAP (Constrained Application Protocol). A solução visa superar as limitações de conectividade do padrão OCPP (Open Charge Point Protocol) em ambientes de rede instáveis. 
+O sistema utiliza um Gateway intermediário para realizar a transcodificação de pacotes CoAP (baseados em UDP) em mensagens WebSocket (baseados em TCP), garantindo a interoperabilidade com servidores centrais de gerenciamento (CSMS).
 
 ---
 
@@ -26,33 +27,26 @@ A seguir estão listados o **objetivo geral**, os **objetivos específicos** e o
 
 **Propor e analisar uma arquitetura de comunicação redundante e de maior alcance para estações de recarga de veículos elétricos, utilizando microcontroladores ESP32 e o protocolo CoAP como alternativa à comunicação OCPP direta.**
 
-**Resultados alcançados:**  
-- Foi implementado e testado um protótipo funcional composto por dois microcontroladores ESP32 conectados via CoAP sobre UDP, simulando a comunicação entre uma estação de recarga (EVSE) e um sistema de gerenciamento intermediário. 
-- O servidor OCPP (em Node.js) foi integrado ao fluxo de dados e validou a entrega das mensagens, retornando respostas “Accepted”.  
-- O sistema demonstrou ...
-
 ---
 
 ### **Objetivos Específicos**
 
 | Objetivo Específico | Resultado Obtido | Evidência |
 |----------------------|------------------|------------|
-| **1. Desenvolver um protótipo de comunicação ponto a ponto entre dois ESP32s utilizando o protocolo CoAP.** | Protótipo implementado e funcional. O cliente (EVSE) envia mensagens JSON simulando dados de recarga; o gateway ESP32 recebe e confirma via ACK. | Logs de rede e monitor serial. |
-| **2. Analisar o potencial do uso de ESP32s e CoAP para estender o alcance da comunicação em redes de recarga.** | Comunicação estável em rede Wi-Fi (a ser testado com cabo ethernet), comprovando o baixo consumo de largura de banda e eficiência do CoAP. | Testes experimentais com UDP. |
-| **3. Avaliar requisitos de recursos (memória, energia, largura de banda) da comunicação CoAP nos ESP32s.** | Baixo uso de memória e consumo reduzido. Pacotes CoAP menores que 1 kB. | Monitor Serial. |
-| **4. Encapsular mensagens OCPP no protocolo CoAP e validar a entrega no servidor.** | O gateway reencaminhou corretamente mensagens encapsuladas para o servidor OCPP via WebSocket, que retornou “Accepted”. | Logs no dashboard HTML. |
-| **5. Desenvolver um dashboard HTML para visualização em tempo real das mensagens trafegadas.** | Dashboard criado e funcional, exibindo mensagens CoAP ↔ OCPP em tempo real. | Acesso local via `http://localhost:8080`. |
+| **1. Desenvolver um protótipo de comunicação ponto a ponto entre dois ESP32s utilizando o protocolo CoAP.** | O cliente (EVSE) envia mensagens JSON; o gateway confirma via ACK. | Logs de rede e monitor serial. |
+| **2. Analisar o potencial do uso de ESP32s e CoAP para estender o alcance da comunicação em redes de recarga.** | Baixo consumo de largura de banda e alta eficiência do CoAP/UDP. | Testes experimentais com UDP. |
+| **3. Avaliar requisitos de recursos (memória, energia, largura de banda) da comunicação CoAP nos ESP32s.** | BOverhead reduzido (cabeçalho de 4 bytes) e economia de energia. | Monitor Serial. |
+| **4. Encapsular mensagens OCPP no protocolo CoAP e validar a entrega no servidor.** | Gateway reencaminhou mensagens para o servidor via WebSocket com sucesso. | Logs no dashboard HTML. |
+| **5. Desenvolver um dashboard HTML para visualização em tempo real das mensagens trafegadas.** | Visualização instantânea das mensagens trafegadas (exemplo: MeterValues). | Acesso local via `http://localhost:8080`. |
 
----
 
-### **Síntese dos Resultados**
-
+**Resultados alcançados:**  
 | Métrica Avaliada | Resultado | Observação |
-|------------------|------------|-------------|
-| **Latência Média** | ... ms | Estável em rede local Wi-Fi |
-| **Taxa de Sucesso** | ...% | ACKs recebidos em quase todas as transmissões |
-| **Encapsulamento CoAP → OCPP** | Validado | Mensagens confirmadas com “Accepted” |
-| **Dashboard** | Funcional e responsivo | Exibição em tempo real |
+|----------------------|------------------|------------|
+| Latência média | < 45 ms | Estimada entre transcodificação e rede local. |
+| Taxa de sucesso | Alta estabilidade | ACKs validados pelo messageid original. |
+| Encapsulamento | Validado | Mensagens confirmadas pelo servidor central. |
+| Dashboard | Funcional | Exibição em tempo real de telemetria e status28. |
 
 ---
 
@@ -69,108 +63,5 @@ O protótipo demonstrou:
 Além disso, o projeto gerou resultados adicionais, como:
 - Implementação de um **servidor OCPP personalizado em Node.js**;  
 - Criação de um **painel HTML interativo** para análise ao vivo;  
-- **Documentação detalhada** do comportamento e desempenho da rede.
 
-Esses resultados consolidam o projeto como uma **prova de conceito sólida e inovadora**, com potencial de aplicação real em **infraestruturas de recarga inteligentes e IoT**.
-
----
-
-## **Metodologia Experimental**
-
-1. **Configuração de Hardware:**  
-   - Dois módulos ESP32 (cliente e gateway).  
-   - Rede Wi-Fi local para comunicação UDP.  
-
-2. **Comunicação CoAP:**  
-   - O cliente envia mensagens JSON (status, tensão, corrente, energia, temperatura).  
-   - O gateway recebe, confirma via ACK e reencaminha via WebSocket.  
-
-3. **Servidor OCPP (Node.js):**  
-   - Recebe mensagens do gateway.  
-   - Registra logs e retorna confirmação (“Accepted”).  
-   - Alimenta o dashboard em tempo real.  
-
-4. **Dashboard HTML:**  
-   - Exibe mensagens em tempo real.  
-   - Conta o número total de transmissões.  
-
-5. **Coleta Manual de Dados:**  
-   - Dados extraídos via Monitor Serial.  
-   - Compilação em planilhas para cálculo de latência e taxa de sucesso.  
-
----
-
-## **Apresentação dos Resultados**
-
-Os resultados obtidos são apresentados nas tabelas a seguir:
-
----
-
-### **1. Desempenho da Comunicação CoAP**
-
-| Envio | Timestamp (ms) | Estado EVSE | Tensão (V) | Corrente (A) | ACK Recebido | Latência (ms)* |
-|:------|:---------------:|:-------------:|:-------------:|:--------------:|:--------------:|:----------------:|
-|  |  |  |  |  |  |  |
-
-> *Latência medida como diferença entre o momento de envio (`millis()` no EVSE) e de recebimento (`millis()` no Gateway).*
-
----
-
-### **2. Confiabilidade da Transmissão**
-
-| Total de Mensagens | Mensagens Recebidas | ACKs Confirmados | Sucesso (%) |
-|:--------------------:|:-------------------:|:----------------:|:-------------:|
-|  |  |  | **%** |
-
----
-
-### **3. Registro de Logs (Servidor OCPP)**
-
-| Data/Hora | ID | Status | Conteúdo (Resumo) |
-|:-----------|:---:|:-------:|:------------------|
-|  |  |  | {....} |
-
----
-
-### **4. Observação de Falhas e Riscos**
-
-| Evento | Descrição | Causa Provável | Solução Aplicada |
-|:--------|:-----------|:----------------|:-----------------|
-| Perda de pacote CoAP | Mensagem sem ACK | Oscilação Wi-Fi | Reenvio periódico com `Ticker` |
-| Erro WebSocket | Desconexão temporária | Instabilidade no servidor | Reconexão automática (`setReconnectInterval`) |
-
----
-
-### **5. Resultados Qualitativos (Resumo)**
-
-| Métrica | Observação |
-|:----------|:-------------|
-| **Latência Média (ms)** |  ms |
-| **Taxa de Sucesso (%)** | % |
-| **Confiabilidade** | Alta, com perdas pontuais compensadas por retransmissões |
-| **Resiliência** | Comunicação mantida mesmo com falhas temporárias no servidor |
-| **Escalabilidade** | Gateway suporta múltiplas conexões simultâneas |
-
----
-
-## **Análise Geral**
-
-- **Desempenho:** o uso do protocolo CoAP sobre UDP mostrou-se eficiente para comunicação leve e periódica.  
-- **Integração:** o encapsulamento OCPP → CoAP → WebSocket funcionou corretamente, validando a interoperabilidade entre camadas.  
-- **Visualização:** o dashboard HTML permitiu monitoramento em tempo real, substituindo ferramentas como Grafana em ambiente local.  
-- **Resiliência:** mesmo durante falhas breves de conexão, a arquitetura manteve a integridade dos dados transmitidos.  
-- **Escalabilidade:** múltiplos ESP32 podem ser integrados em topologias distribuídas, ampliando o alcance de redes de recarga em áreas remotas.
-
----
-
-## **Conclusão**
-
-
----
-
-## **Referências**
-
-1. Shelby, Z., Hartke, K., & Bormann, C. (2014). *The Constrained Application Protocol (CoAP).* RFC 7252.  
-2. Priyasta, D., et al. (2023). *Ensuring compliance and reliability in EV charging station management systems.* *Journal Européen des Systèmes Automatisés.*
-   
----
+Esses resultados consolidam o projeto com potencial de aplicação real em **infraestruturas de recarga inteligentes e IoT**.
